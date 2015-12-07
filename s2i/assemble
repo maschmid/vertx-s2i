@@ -22,11 +22,13 @@ function setup_maven() {
   fi
 }
 
-if [ -f "${S2I_SOURCE_DIR}/pom.xml" ]; then
-  # maven fat-jar deployment
+function fatjar_build() {
   local maven_args=${MAVEN_ARGS:-package}
   local artifact_prefix=${ARTIFACT_PREFIX:-${S2I_SOURCE_DIR}/target/}
   local artifact_suffix=${ARTIFACT_SUFFIX:--fat.jar}
+
+  local old_dir=$(pwd)
+  cd ${S2I_SOURCE_DIR}
 
   mvn ${maven_env_args} ${maven_args}
   check_error "Maven build" $?
@@ -39,6 +41,13 @@ if [ -f "${S2I_SOURCE_DIR}/pom.xml" ]; then
     echo "Did not find ${artifact_prefix}*${artifact_suffix}. Make sure your build generates a fat jar with a '${artifact_suffix}' suffix"
     exit 1
   fi
+
+  cd $old_dir
+}
+
+if [ -f "${S2I_SOURCE_DIR}/pom.xml" ]; then
+  # maven fat-jar deployment
+  fatjar_build
 else
   # no-build deployment, just copy the files
   cp -r ${S2I_SOURCE_DIR}/* ${DEPLOYMENTS_DIR}
