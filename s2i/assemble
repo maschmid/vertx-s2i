@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Hello start!"
+
+# Global S2I variable setup
+source `dirname "$0"`/s2i-setup
+
+echo "Hello after s2i-setup"
+
+cp -r ${S2I_SOURCE_DIR}/* ${DEPLOYMENTS_DIR}
+
+echo $? 
+
+echo "after cp"
+
