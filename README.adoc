@@ -29,7 +29,7 @@ Before you can use the vert.x image in OpenShift, you must first create the Imag
 }
 ----
 
-```oc create -f image-stream.json```
+You can create the image stream with 'oc create -f image-stream.json'
 
 ## Deploying verticle sources
 
