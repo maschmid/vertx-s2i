@@ -4,7 +4,7 @@ OpenShift vert.x source-to-image
 This image can be used to build and deploy https://vertx.io/[vert.x] applications on http://www.openshift.com/[OpenShift]
  using https://docs.openshift.com/enterprise/3.1/creating_images/s2i.html/[Source-to-Image].
 
-This S2I image supports two mechanism for deploying vert.x applications:
+This S2I image supports two mechanisms for deploying vert.x applications:
 
 1. Use 'vertx run' to directly execute verticles written in one of the vert.x supported languages
 
