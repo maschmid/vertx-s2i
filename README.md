@@ -15,7 +15,7 @@ This S2I image supports two mechanism for deploying vert.x applications:
 Before you can use the vert.x image in OpenShift, you must first create the ImageStream containing the vertx-s2i image
 
 .image-stream.json
-[source, json]
+[source]
 ----
 {
   "kind": "ImageStream",
@@ -42,7 +42,7 @@ VERTICLE_NAME=hello-verticle.js
 ----
 
 .hello-verticle.js
-[source, JavaScript]
+[source]
 ----
 vertx.createHttpServer().requestHandler(function (request) {
     request.response().end("Hello world");
