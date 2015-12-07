@@ -48,6 +48,13 @@ vertx.createHttpServer().requestHandler(function (request) {
 }).listen(8080);
 ----
 
+Now you can deploy your application with
+
+[source]
+----
+oc new-app vertx-s2i~https://github.com/maschmid/vertx-s2i-demo
+----
+
 ## Building a Java "fat" jar
 
 You can use the vertx-s2i image to deploy a vert.x application by providing a maven build that produces a 'fat' executable JAR file.
@@ -129,6 +136,13 @@ In this case you need to provide a pom.xml. The s2i assemble script will execute
     </plugins>
   </build>
 </project>
+----
+
+Now you can build and deploy your Fat Jar application on OpenShift with
+
+[source]
+----
+oc new-app vertx-s2i~https://github.com/maschmid/vertx-s2i-fatjar-demo
 ----
 
 
