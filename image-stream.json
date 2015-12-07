@@ -1,0 +1,10 @@
+{
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "vertx-s2i",
+  },
+  "spec": {
+    "dockerImageRepository": "maschmid/vertx-s2i"
+  }
+}

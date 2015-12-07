@@ -3,4 +3,9 @@
 # Global S2I variable setup
 source `dirname "$0"`/s2i-setup
 
-exec vertx run $VERTICLE_NAME -cp $DEPLOYMENTS_DIR/* $VERTX_OPTIONS
+if [ -f $DEPLOYMENTS_DIR/.fatjar ]; then
+  FAT_JAR=`cat $DEPLOYMENTS_DIR/.fatjar`
+  java -jar $FAT_JAR
+else
+  exec vertx run $VERTICLE_NAME -cp $DEPLOYMENTS_DIR/* $VERTX_OPTIONS
+fi

@@ -1,15 +1,46 @@
 #!/bin/bash
 
-echo "Hello start!"
-
 # Global S2I variable setup
 source `dirname "$0"`/s2i-setup
 
-echo "Hello after s2i-setup"
+# Maven arguments setting up the environment
+maven_env_args="-Dmaven.repo.local=${S2I_ARTIFACTS_DIR}/m2"
 
-cp -r ${S2I_SOURCE_DIR}/* ${DEPLOYMENTS_DIR}
+function check_error() {
+  local label=$1
+  local error=$2
+  if [ ${error} -ne 0 ]; then
+    echo "Aborting due to error code $error for $label"
+    exit ${error}
+  fi
+}
 
-echo $? 
+function setup_maven() {
+  if [ -f "${S2I_SOURCE_DIR}/configuration/settings.xml" ]; then
+    maven_env_args="${maven_env_args} -s ${S2I_SOURCE_DIR}/configuration/settings.xml"
+    echo "Using custom maven settings from ${S2I_SOURCE_DIR}/configuration/settings.xml"
+  fi
+}
 
-echo "after cp"
+if [ -f "${S2I_SOURCE_DIR}/pom.xml" ]; then
+  # maven fat-jar deployment
+  local maven_args=${MAVEN_ARGS:-package}
+  local artifact_prefix=${ARTIFACT_PREFIX:-${S2I_SOURCE_DIR}/target/}
+  local artifact_suffix=${ARTIFACT_SUFFIX:--fat.jar}
+
+  mvn ${maven_env_args} ${maven_args}
+  check_error "Maven build" $?
+
+  fatjar=${artifact_prefix}*${artifact_suffix}
+  if [ -f $fatjar ]; then
+    cp $fatjar ${DEPLOYMENTS_DIR}
+    echo ${fatjar} > ${DEPLOYMENTS_DIR}/.fatjar
+  else
+    echo "Did not find ${artifact_prefix}*${artifact_suffix}. Make sure your build generates a fat jar with a '${artifact_suffix}' suffix"
+    exit 1
+  fi
+else
+  # no-build deployment, just copy the files
+  cp -r ${S2I_SOURCE_DIR}/* ${DEPLOYMENTS_DIR}
+fi
 
