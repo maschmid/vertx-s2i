@@ -33,9 +33,8 @@ You can create the image stream with 'oc create -f image-stream.json'
 
 ## Deploying verticle sources
 
-To deploy a set of verticles by their source code, just add them to a git repository and add the following file to declare the main verticle:
+To deploy a set of verticles by their source code, just add them to a git repository and add a file named '.sti/environment' to declare the main verticle
 
-. .sti/environment
 [source]
 ----
 VERTICLE_NAME=hello-verticle.js
