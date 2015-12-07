@@ -1,8 +1,8 @@
 # vertx-s2i
 OpenShift vert.x source-to-image
 
-This image can be used to build and deploy [vert.x](https://vertx.io) applications on [OpenShift](http://www.openshift.com)
- using [Source-to-image](https://docs.openshift.com/enterprise/3.1/creating_images/s2i.html).
+This image can be used to build and deploy https://vertx.io/[vert.x] applications on http://www.openshift.com/[OpenShift]
+ using https://docs.openshift.com/enterprise/3.1/creating_images/s2i.html/[Source-to-Image].
 
 This S2I image supports two mechanism for deploying vert.x applications:
 
